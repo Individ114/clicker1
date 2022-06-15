@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="jquery.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div id="heading1" class="heading1">0</div>
+
+      <script>
+        var play = confirm(`Кликер. Нужно 10 раз попасть по точке. Поехали?`);
+        if (play) {
+          var nitro = plusFunc(0);
+          function plusFunc(plus) {
+            return (plus += 1);
+          }
+          var intervalLength = 1;
+
+          var direction = "направо";
+
+          var randomLeft = number(400);
+          function number(x) {
+            return [Math.floor(Math.random() * x)];
+          }
+          var randomTop = number(800);
+          function number(x) {
+            return [Math.floor(Math.random() * x)];
+          }
+          var randomEndLeft = number(400);
+          function number(x) {
+            return [Math.floor(Math.random() * x)];
+          }
+          var randomEndTop = number(800);
+          function number(x) {
+            return [Math.floor(Math.random() * x)];
+          }
+          function moveHeadingFunc() {
+            if (direction === "направо") {
+              $("#heading1").offset({ left: randomLeft });
+              randomLeft = Number(randomLeft);
+              randomLeft += nitro;
+              if (randomLeft > randomEndLeft) {
+                randomTop = number(800);
+                direction = "вниз";
+              }
+            } else if (direction === "вниз") {
+              $("#heading1").offset({ top: randomTop });
+              randomTop = Number(randomTop);
+              randomTop += nitro;
+              if (randomTop > randomEndTop) {
+                randomLeft = number(400);
+                direction = "влево";
+              }
+            } else if (direction === "влево") {
+              $("#heading1").offset({ left: randomLeft });
+              randomLeft = Number(randomLeft);
+              randomLeft -= nitro;
+              if (randomLeft < randomEndLeft) {
+                randomTop = number(800);
+                direction = "вверх";
+              }
+            } else if (direction === "вверх") {
+              $("#heading1").offset({ top: randomTop });
+              randomTop = Number(randomTop);
+              randomTop -= nitro;
+              if (randomTop < randomEndTop) {
+                randomLeft = number(400);
+                direction = "направо";
+              }
+            }
+          }
+
+          var intervalID = setInterval(moveHeadingFunc, intervalLength);
+
+          var x = 0;
+          $("#heading1").click(function () {
+            clearInterval(intervalID);
+            nitro += 0.15;
+            x++;
+            if (x > 9) {
+              $("#heading1").text("Stop");
+            } else {
+              intervalID = setInterval(moveHeadingFunc, intervalLength);
+              $("#heading1").text(`${x}`);
+            }
+          });
+        } else {
+          alert(`Как хотите. Удачи.`);
+        }
+      </script>
+    </div>
+  </body>
+</html>
